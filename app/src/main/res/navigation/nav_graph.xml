@@ -8,9 +8,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.applemusicapp.view.HomeFragment"
+        android:name="com.example.applemusicapp.view.MusicListFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/music_list_fragment" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.applemusicapp.view.HomeFragment"
@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.applemusicapp.view.HomeFragment"
+        android:name="com.example.applemusicapp.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 
