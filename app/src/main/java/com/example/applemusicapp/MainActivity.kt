@@ -9,6 +9,7 @@ import com.example.applemusicapp.remote.MusicResponse
 import com.example.applemusicapp.remote.remote.MusicNetwork
 import com.example.applemusicapp.view.Communicator
 import com.example.applemusicapp.view.MusicListFragment
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,7 +20,12 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), Communicator {
 
-    //private lateinit var bridge: Communicator
+    //lateinit var mainBinding: ActivityMainBinding
+    lateinit var navBottom: BottomNavigationView
+    private lateinit var navRock: BottomNavigationMenuView
+    private lateinit var navClassic: BottomNavigationMenuView
+    private lateinit var navPop: BottomNavigationMenuView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +39,37 @@ class MainActivity : AppCompatActivity(), Communicator {
         bottomNavigationView.setupWithNavController(navController)
 
         doSearch("rock", "music", "song", 10)
+        initViews()
+    }
+
+    fun initViews() {
+        navBottom = findViewById(R.id.nb_bottom)
+        val mOnNavigationItemSelectedListener =
+            BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.homeFragment -> {
+                        Log.d(TAG, "initViews: home")
+                        doSearch("rock", "music", "song", 10)
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.profileFragment -> {
+                        // put your code here
+                        Log.d(TAG, "initViews: profile")
+                        doSearch("classick", "music", "song", 10)
+
+                        return@OnNavigationItemSelectedListener true
+                    }
+                    R.id.settingsFragment -> {
+                        // put your code here
+                        Log.d(TAG, "initViews: settings")
+                        doSearch("pop", "music", "song", 10)
+
+                        return@OnNavigationItemSelectedListener true
+                    }
+                }
+                false
+            }
+        navBottom.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     override fun doSearch(term: String, media: String, entity: String, limit: Int) {
@@ -60,7 +97,6 @@ class MainActivity : AppCompatActivity(), Communicator {
                 }
 
 
-
                 override fun onFailure(call: Call<MusicResponse>, t: Throwable) {
                     Log.d(TAG, "onFailure: $t")
                 }
@@ -68,6 +104,7 @@ class MainActivity : AppCompatActivity(), Communicator {
         )
 
     }
+
     private fun createDisplayFragment(body: MusicResponse?) {
         Log.d(TAG, "createDisplayFragment: enter")
         body?.let {
