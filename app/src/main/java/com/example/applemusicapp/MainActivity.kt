@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.applemusicapp.remote.MusicResponse
-import com.example.applemusicapp.view.Communicator
 import com.example.applemusicapp.remote.remote.MusicNetwork
+import com.example.applemusicapp.view.Communicator
+import com.example.applemusicapp.view.MusicListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,8 +17,9 @@ import retrofit2.Response
 private const val TAG = "MainActivity"
 
 
-class MainActivity : AppCompatActivity(),Communicator {
+class MainActivity : AppCompatActivity(), Communicator {
 
+    //private lateinit var bridge: Communicator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity(),Communicator {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nb_bottom)
         bottomNavigationView.setupWithNavController(navController)
 
+        doSearch("rock", "music", "song", 10)
     }
 
     override fun doSearch(term: String, media: String, entity: String, limit: Int) {
@@ -48,18 +51,34 @@ class MainActivity : AppCompatActivity(),Communicator {
                     if (response.isSuccessful) {
                         Log.d(TAG, "onResponse: succesfuly")
                         val body = response.body()
-                        Log.d(TAG, "onResponse: $response")
-                        Log.d(TAG, "onResponse: $body")
+                        //Log.d(TAG, "onResponse: $response")
+                        //Log.d(TAG, "onResponse: $body")
+                        createDisplayFragment(body)
                     } else {
                         Log.d(TAG, "onResponse:  error $response")
                     }
                 }
 
+
+
                 override fun onFailure(call: Call<MusicResponse>, t: Throwable) {
-                    Log.d(TAG, "onFailure: ")
+                    Log.d(TAG, "onFailure: $t")
                 }
             }
         )
+
+    }
+    private fun createDisplayFragment(body: MusicResponse?) {
+        Log.d(TAG, "createDisplayFragment: enter")
+        body?.let {
+            supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.display_list_container,
+                    MusicListFragment.newInstance(it)
+
+                ).commit()
+        }
+
     }
 
 }
