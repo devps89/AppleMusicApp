@@ -2,9 +2,11 @@ package com.example.applemusicapp
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.applemusicapp.remote.MusicResponse
 import com.example.applemusicapp.remote.remote.MusicNetwork
 import com.example.applemusicapp.view.Communicator
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity(), Communicator {
     private lateinit var navRock: BottomNavigationMenuView
     private lateinit var navClassic: BottomNavigationMenuView
     private lateinit var navPop: BottomNavigationMenuView
+    private lateinit var swpRefreshList: SwipeRefreshLayout
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +46,7 @@ class MainActivity : AppCompatActivity(), Communicator {
     }
 
     fun initViews() {
+        swpRefreshList = findViewById(R.id.swp_refresh_list)
         navBottom = findViewById(R.id.nb_bottom)
         val mOnNavigationItemSelectedListener =
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -70,6 +74,31 @@ class MainActivity : AppCompatActivity(), Communicator {
                 false
             }
         navBottom.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        swpRefreshList.setOnRefreshListener() {
+            Toast.makeText(this, "refreshing", Toast.LENGTH_SHORT).show()
+            refreshinngData()
+            swpRefreshList.isRefreshing = false
+        }
+    }
+
+    fun refreshinngData() {
+        when (navBottom.selectedItemId) {
+            R.id.homeFragment -> {
+                Log.d(TAG, "initViews: home")
+                doSearch("rock", "music", "song", 10)
+            }
+            R.id.profileFragment -> {
+                // put your code here
+                Log.d(TAG, "initViews: profile")
+                doSearch("classick", "music", "song", 10)
+            }
+            R.id.settingsFragment -> {
+                // put your code here
+                Log.d(TAG, "initViews: settings")
+                doSearch("pop", "music", "song", 10)
+            }
+        }
     }
 
     override fun doSearch(term: String, media: String, entity: String, limit: Int) {
