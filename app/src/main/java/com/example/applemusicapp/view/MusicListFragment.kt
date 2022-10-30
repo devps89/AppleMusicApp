@@ -1,6 +1,8 @@
 package com.example.applemusicapp.view
 
 import android.content.Context
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import com.example.applemusicapp.databinding.MusicListFragmentBinding
 import com.example.applemusicapp.remote.MusicItem
 import com.example.applemusicapp.remote.MusicResponse
 import com.example.applemusicapp.view.adapter.MusicAdapter
+
 
 private const val TAG = "MusicListFragment"
 
@@ -63,7 +66,7 @@ class MusicListFragment : Fragment() {
             updateAdapter(it)
         }
         initViews()
-        val kk=binding.rvMusicList.adapter
+        val kk = binding.rvMusicList.adapter
         Log.d(TAG, "onCreateView: $kk")
         //bridge.doSearch("rock", "music", "song", 10)
         //Log.d(TAG, "onCreateView: $kk")
@@ -86,8 +89,26 @@ class MusicListFragment : Fragment() {
 
     private fun updateAdapter(dataSet: MusicResponse) {
         Log.d(TAG, "updateAdapter: ")
+        var mediaPlayer = MediaPlayer()
+        var mMediaPlayer: MediaPlayer? = null
         binding.rvMusicList.adapter = MusicAdapter(parseListMusicInfo(dataSet)) {
-            Toast.makeText(context, "$it", Toast.LENGTH_SHORT).show()
+
+            var previewAudio = it.previewUrl
+            var myUri: Uri = Uri.parse(previewAudio)
+
+//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
+//            MediaPlayer.create(context, myUri)
+            try {
+                mediaPlayer.reset()
+                mediaPlayer.setDataSource(previewAudio)
+                mediaPlayer.prepare()
+                mediaPlayer.start()
+
+            } catch (ex: Exception) {
+                val msg=ex.message
+                Toast.makeText(context, "Can't play song", Toast.LENGTH_SHORT).show()
+            }
+
         }
         Log.d(TAG, "updateAdapter: end")
     }
@@ -99,7 +120,8 @@ class MusicListFragment : Fragment() {
                 item.collectionName,
                 item.artworkUrl60,
                 item.trackPrice,
-                )
+                item.previewUrl
+            )
         }
 
     }
