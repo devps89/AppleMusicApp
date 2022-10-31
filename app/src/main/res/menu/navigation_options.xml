@@ -3,14 +3,14 @@
     <item
         android:id="@+id/rock_fragment"
         android:title="@string/rock"
-        android:icon="@drawable/home"/>
+        android:icon="@drawable/rock"/>
     <item
         android:id="@+id/classics_fragment"
         android:title="@string/classic"
-        android:icon="@drawable/profile"/>
+        android:icon="@drawable/classic"/>
     <item
         android:id="@+id/pop_fragment"
         android:title="@string/pop"
-        android:icon="@drawable/settings"/>
+        android:icon="@drawable/pop"/>
 
 </menu>
