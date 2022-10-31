@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/rock_fragment"
-        android:title="Home"
+        android:title="@string/rock"
         android:icon="@drawable/home"/>
     <item
         android:id="@+id/classics_fragment"
-        android:title="Profile"
+        android:title="@string/classic"
         android:icon="@drawable/profile"/>
     <item
         android:id="@+id/pop_fragment"
-        android:title="Setting"
+        android:title="@string/pop"
         android:icon="@drawable/settings"/>
 
 </menu>

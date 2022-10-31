@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.applemusicapp.R
 import com.example.applemusicapp.databinding.MusicListFragmentBinding
 import com.example.applemusicapp.remote.MusicItem
 import com.example.applemusicapp.remote.MusicResponse
@@ -64,24 +65,28 @@ class MusicListFragment : Fragment() {
         return binding.root
     }
 
-    fun initViews() {
+    private fun initViews() {
         binding.rvMusicList.layoutManager = LinearLayoutManager(context)
     }
 
     private fun updateAdapter(dataSet: MusicResponse) {
         Log.d(TAG, "updateAdapter: ")
+
+        //MediaPlayer instance created
+        //it is created out side of the curly bracers
+        //because if is  declared inside it  will be play many songs
         val mediaPlayer = MediaPlayer()
         binding.rvMusicList.adapter = MusicAdapter(parseListMusicInfo(dataSet)) {
 
             val previewAudio = it.previewUrl
             try {
-                mediaPlayer.reset()
+                mediaPlayer.reset()//is necessary to use previous reuse the mediaPlayer
                 mediaPlayer.setDataSource(previewAudio)
                 mediaPlayer.prepare()
                 mediaPlayer.start()
 
             } catch (ex: Exception) {
-                Toast.makeText(context, "Can't play song", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.error_play_song), Toast.LENGTH_SHORT).show()
             }
 
         }

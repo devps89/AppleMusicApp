@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MusicNetwork {
 
     companion object {
-        const val BASE_URL = "https://itunes.apple.com/"
+       private const val BASE_URL = "https://itunes.apple.com/"
         const val END_POINT = "search"
 
         val musicApi: MusicAPI by lazy {
@@ -16,11 +16,10 @@ class MusicNetwork {
 
 
         private fun initRetrofit(): Retrofit {
-            val retrofit = Retrofit.Builder()
+            return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            return retrofit
         }
 
     }

@@ -12,8 +12,8 @@ import com.squareup.picasso3.Picasso
 private const val TAG = "MusicAdapter"
 
 class MusicAdapter(
-    val dataSet: List<MusicItem>,
-    val openDetails: (MusicItem) -> Unit
+    private val dataSet: List<MusicItem>,
+    private val openDetails: (MusicItem) -> Unit
 ) : RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
     class MusicViewHolder(private val binding: MusicItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -26,10 +26,12 @@ class MusicAdapter(
             binding.tvMusicArtist.text = musicItem.artistName
             binding.tvMusicPrice.text = musicItem.trackPrice
 
-            val imgurl = musicItem.artworkUrl60.replace("http:", "https:")
+            //the images are hosted in API and it use "HTTPS" but the url is provided as "HTTP"
+            //so i replace the http for https
+            val imgUrl = musicItem.artworkUrl60.replace("http:", "https:")
             Picasso.Builder(binding.root.context)
                 .build()
-                .load(imgurl).resize(200, 200)
+                .load(imgUrl).resize(200, 200)
                 .into(binding.ivMusicImg)
 
         }

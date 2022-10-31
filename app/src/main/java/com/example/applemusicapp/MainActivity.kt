@@ -21,7 +21,7 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), Communicator {
 
-    lateinit var navBottom: BottomNavigationView
+    private lateinit var navBottom: BottomNavigationView
     private lateinit var swpRefreshList: SwipeRefreshLayout
 
 
@@ -40,9 +40,10 @@ class MainActivity : AppCompatActivity(), Communicator {
         initViews()
     }
 
-    fun initViews() {
+    private fun initViews() {
         swpRefreshList = findViewById(R.id.swp_refresh_list)
         navBottom = findViewById(R.id.nb_bottom)
+        //add the listener for validate the item selected, and it will be fill with corresponded list
         val mOnNavigationItemSelectedListener =
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
@@ -68,14 +69,18 @@ class MainActivity : AppCompatActivity(), Communicator {
             }
         navBottom.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        swpRefreshList.setOnRefreshListener() {
-            Toast.makeText(this, "refreshing", Toast.LENGTH_SHORT).show()
-            refreshinngData()
+        //set a listener for refresh the list when pull down and call the fun "refreshingData"
+        swpRefreshList.setOnRefreshListener {
+            Toast.makeText(this, getString(R.string.msg_refreshing_list), Toast.LENGTH_SHORT).show()
+            refreshingData()
             swpRefreshList.isRefreshing = false
         }
     }
 
-    fun refreshinngData() {
+    /**
+     * Refresh the list after pull down swipe
+     */
+   private fun refreshingData() {
         when (navBottom.selectedItemId) {
             R.id.rock_fragment -> {
                 Log.d(TAG, "initViews: home")
@@ -106,7 +111,7 @@ class MainActivity : AppCompatActivity(), Communicator {
                     response: Response<MusicResponse>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d(TAG, "onResponse: succesfuly")
+                        Log.d(TAG, "onResponse: successfully")
                         val body = response.body()
                         createDisplayFragment(body)
                     } else {
