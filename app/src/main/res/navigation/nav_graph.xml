@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/music_list_page"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/rock_fragment">
 
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/rock_fragment"
         android:name="com.example.applemusicapp.view.MusicListFragment"
         android:label="fragment_home"
         tools:layout="@layout/music_list_fragment" />
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.applemusicapp.view.HomeFragment"
+        android:id="@+id/classics_fragment"
+        android:name="com.example.applemusicapp.view.MusicListFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/music_list_fragment" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.applemusicapp.SettingsFragment"
+        android:id="@+id/pop_fragment"
+        android:name="com.example.applemusicapp.view.MusicListFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/music_list_fragment" />
 
 </navigation>

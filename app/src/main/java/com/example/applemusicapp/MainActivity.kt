@@ -11,7 +11,6 @@ import com.example.applemusicapp.remote.MusicResponse
 import com.example.applemusicapp.remote.remote.MusicNetwork
 import com.example.applemusicapp.view.Communicator
 import com.example.applemusicapp.view.MusicListFragment
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,11 +21,7 @@ private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity(), Communicator {
 
-    //lateinit var mainBinding: ActivityMainBinding
     lateinit var navBottom: BottomNavigationView
-    private lateinit var navRock: BottomNavigationMenuView
-    private lateinit var navClassic: BottomNavigationMenuView
-    private lateinit var navPop: BottomNavigationMenuView
     private lateinit var swpRefreshList: SwipeRefreshLayout
 
 
@@ -51,20 +46,18 @@ class MainActivity : AppCompatActivity(), Communicator {
         val mOnNavigationItemSelectedListener =
             BottomNavigationView.OnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
-                    R.id.homeFragment -> {
+                    R.id.rock_fragment -> {
                         Log.d(TAG, "initViews: home")
                         doSearch("rock", "music", "song", 10)
                         return@OnNavigationItemSelectedListener true
                     }
-                    R.id.profileFragment -> {
-                        // put your code here
+                    R.id.classics_fragment -> {
                         Log.d(TAG, "initViews: profile")
                         doSearch("classick", "music", "song", 10)
 
                         return@OnNavigationItemSelectedListener true
                     }
-                    R.id.settingsFragment -> {
-                        // put your code here
+                    R.id.pop_fragment -> {
                         Log.d(TAG, "initViews: settings")
                         doSearch("pop", "music", "song", 10)
 
@@ -84,17 +77,15 @@ class MainActivity : AppCompatActivity(), Communicator {
 
     fun refreshinngData() {
         when (navBottom.selectedItemId) {
-            R.id.homeFragment -> {
+            R.id.rock_fragment -> {
                 Log.d(TAG, "initViews: home")
                 doSearch("rock", "music", "song", 10)
             }
-            R.id.profileFragment -> {
-                // put your code here
+            R.id.classics_fragment -> {
                 Log.d(TAG, "initViews: profile")
                 doSearch("classick", "music", "song", 10)
             }
-            R.id.settingsFragment -> {
-                // put your code here
+            R.id.pop_fragment -> {
                 Log.d(TAG, "initViews: settings")
                 doSearch("pop", "music", "song", 10)
             }
@@ -117,8 +108,6 @@ class MainActivity : AppCompatActivity(), Communicator {
                     if (response.isSuccessful) {
                         Log.d(TAG, "onResponse: succesfuly")
                         val body = response.body()
-                        //Log.d(TAG, "onResponse: $response")
-                        //Log.d(TAG, "onResponse: $body")
                         createDisplayFragment(body)
                     } else {
                         Log.d(TAG, "onResponse:  error $response")
