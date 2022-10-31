@@ -16,13 +16,4 @@ interface MusicAPI {
         @Query("amp;limit") limit: Int = 1,
 
         ): Call<MusicResponse>
-
-//    @GET(BookNetwork.END_POINT)
-//    fun getBooksByFilters(
-//        @Query("q") bookTitle: String,
-//        @Query("filter") bookFilter: String,
-//        @Query("maxResults") bookMaxResults: Int,
-//        @Query("printType") bookPrintType: String
-//    ): Call<BooksResponse>
-
 }

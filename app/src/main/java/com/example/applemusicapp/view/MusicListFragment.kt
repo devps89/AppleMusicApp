@@ -2,17 +2,14 @@ package com.example.applemusicapp.view
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.applemusicapp.databinding.MusicListFragmentBinding
 import com.example.applemusicapp.remote.MusicItem
 import com.example.applemusicapp.remote.MusicResponse
@@ -23,8 +20,6 @@ private const val TAG = "MusicListFragment"
 
 class MusicListFragment : Fragment() {
     private lateinit var binding: MusicListFragmentBinding
-    private lateinit var rvMusicList: RecyclerView
-    private lateinit var btnTestApi: Button
     private lateinit var bridge: Communicator
 
 
@@ -52,7 +47,7 @@ class MusicListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.d(TAG, "onCreateView: $container")
         super.onCreateView(inflater, container, savedInstanceState)
 
@@ -66,38 +61,19 @@ class MusicListFragment : Fragment() {
             updateAdapter(it)
         }
         initViews()
-        val kk = binding.rvMusicList.adapter
-        Log.d(TAG, "onCreateView: $kk")
-        //bridge.doSearch("rock", "music", "song", 10)
-        //Log.d(TAG, "onCreateView: $kk")
         return binding.root
     }
 
     fun initViews() {
         binding.rvMusicList.layoutManager = LinearLayoutManager(context)
-        // binding.rvBookResult.adapter = BookAdapter(emptyList(), ::navigateDetails)
-//        btnTestApi = binding.btnTestCallApi
-//        btnTestApi.setOnClickListener {
-//            bridge.doSearch(
-//                "rock",
-//                "music",
-//                "song",
-//                10
-//            )
-//        }
     }
 
     private fun updateAdapter(dataSet: MusicResponse) {
         Log.d(TAG, "updateAdapter: ")
-        var mediaPlayer = MediaPlayer()
-        var mMediaPlayer: MediaPlayer? = null
+        val mediaPlayer = MediaPlayer()
         binding.rvMusicList.adapter = MusicAdapter(parseListMusicInfo(dataSet)) {
 
-            var previewAudio = it.previewUrl
-            var myUri: Uri = Uri.parse(previewAudio)
-
-//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
-//            MediaPlayer.create(context, myUri)
+            val previewAudio = it.previewUrl
             try {
                 mediaPlayer.reset()
                 mediaPlayer.setDataSource(previewAudio)
@@ -105,7 +81,6 @@ class MusicListFragment : Fragment() {
                 mediaPlayer.start()
 
             } catch (ex: Exception) {
-                val msg=ex.message
                 Toast.makeText(context, "Can't play song", Toast.LENGTH_SHORT).show()
             }
 

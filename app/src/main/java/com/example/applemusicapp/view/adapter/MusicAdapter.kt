@@ -1,7 +1,5 @@
 package com.example.applemusicapp.view.adapter
 
-import android.media.MediaPlayer
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import com.squareup.picasso3.Picasso
 
 
 private const val TAG = "MusicAdapter"
-var mMediaPlayer: MediaPlayer? = null
 
 class MusicAdapter(
     val dataSet: List<MusicItem>,
@@ -25,19 +22,16 @@ class MusicAdapter(
             binding.root.setOnClickListener {
                 openDetails(musicItem)
             }
-            val musicName = musicItem.collectionName
             binding.tvMusicName.text = musicItem.collectionName
             binding.tvMusicArtist.text = musicItem.artistName
             binding.tvMusicPrice.text = musicItem.trackPrice
 
-            var imgurl = musicItem.artworkUrl60.replace("http:", "https:")
-            //Log.d(TAG, "bind: $imgurl")
+            val imgurl = musicItem.artworkUrl60.replace("http:", "https:")
             Picasso.Builder(binding.root.context)
                 .build()
                 .load(imgurl).resize(200, 200)
                 .into(binding.ivMusicImg)
 
-            //Log.d(TAG, "bind: $musicName")
         }
     }
 
