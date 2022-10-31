@@ -22,7 +22,7 @@ class MusicAdapter(
             binding.root.setOnClickListener {
                 openDetails(musicItem)
             }
-            binding.tvMusicName.text = musicItem.collectionName
+            binding.tvMusicName.text = musicItem.trackName
             binding.tvMusicArtist.text = musicItem.artistName
             binding.tvMusicPrice.text = musicItem.trackPrice
 

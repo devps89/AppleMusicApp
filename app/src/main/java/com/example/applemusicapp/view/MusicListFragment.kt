@@ -97,7 +97,7 @@ class MusicListFragment : Fragment() {
         return dataSet.results.map { item ->
             MusicItem(
                 item.artistName,
-                item.collectionName,
+                item.trackName,
                 item.artworkUrl60,
                 item.trackPrice,
                 item.previewUrl
